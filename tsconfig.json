@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "skipLibCheck": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "target": "es2018",
+        "allowJs": false,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "allowUnreachableCode": false,
+        "strictNullChecks": true,
+        "sourceMap": false,
+        "resolveJsonModule": true,
+        "noImplicitThis": true,
+        "noUnusedParameters": true,
+        "noStrictGenericChecks": false,
+        "removeComments": false,
+        "allowUnusedLabels": false,
+        "noImplicitReturns": true,
+        "strictPropertyInitialization": true,
+        "lib": ["es6", "es2018.promise", "dom"],
+        "typeRoots": ["src/@types", "node_modules/@types"]
+    },
+    "include": ["src/**/*"],
+    "exclude": ["**/__tests__", "dist", "./node_modules"]
+}

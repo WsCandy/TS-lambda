@@ -1,0 +1,103 @@
+defaults: &defaults
+  docker:
+    - image: wscandy/ci-aws:1.1.0
+  working_directory: ~/repo
+  environment:
+    - FUNCTION_NAME: lambda
+
+version: 2.1
+
+jobs:
+  source:
+    <<: *defaults
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: .
+          paths: .
+  build:
+    docker:
+      - image: circleci/node:11
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - restore_cache:
+          key: v1-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn
+      - run:
+          name: Lint
+          command: yarn lint
+      - run:
+          name: Build
+          command: yarn build
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-{{ checksum "yarn.lock" }}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+  package:
+    docker:
+      - image: circleci/node:10
+    environment:
+      - NODE_ENV: production
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - restore_cache:
+          key: v1-p-{{ checksum "yarn.lock" }}
+      - run:
+          name: Production Dependencies
+          command: yarn
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-p-{{ checksum "yarn.lock" }}
+      - run:
+          name: Package
+          command: zip -r ${CIRCLE_PROJECT_REPONAME}.zip node_modules; cd dist; zip -rg ../${CIRCLE_PROJECT_REPONAME}.zip . *; cd ..;
+      - store_artifacts:
+          path: ${CIRCLE_PROJECT_REPONAME}.zip
+          destination: builds/${CIRCLE_PROJECT_REPONAME}.zip
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ${CIRCLE_PROJECT_REPONAME}.zip
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Deploy
+          command: aws lambda update-function-code --function-name ${FUNCTION_NAME} --region eu-west-2 --zip-file fileb://${CIRCLE_PROJECT_REPONAME}.zip
+
+workflows:
+  build_deploy:
+    jobs:
+      - source
+      - build:
+          requires:
+            - source
+      - package:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+# Uncomment this for continuous deployment
+#      - deploy:
+#          context: wscandy
+#          requires:
+#            - package
+#          filters:
+#            branches:
+#              only:
+#                - master
