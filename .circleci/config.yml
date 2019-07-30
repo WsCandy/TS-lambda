@@ -61,14 +61,14 @@ jobs:
           key: v1-p-{{ checksum "yarn.lock" }}
       - run:
           name: Package
-          command: zip -r ${CIRCLE_PROJECT_REPONAME}.zip node_modules; cd dist; zip -rg ../${CIRCLE_PROJECT_REPONAME}.zip . *; cd ..;
+          command: zip -r archive.zip node_modules; cd dist; zip -rg ../archive.zip . *; cd ..;
       - store_artifacts:
-          path: ${CIRCLE_PROJECT_REPONAME}.zip
-          destination: builds/${CIRCLE_PROJECT_REPONAME}.zip
+          path: archive.zip
+          destination: builds/archive.zip
       - persist_to_workspace:
           root: .
           paths:
-            - ${CIRCLE_PROJECT_REPONAME}.zip
+            - archive.zip
   deploy:
     <<: *defaults
     steps:
@@ -76,7 +76,7 @@ jobs:
           at: ~/repo
       - run:
           name: Deploy
-          command: aws lambda update-function-code --function-name ${FUNCTION_NAME} --region eu-west-2 --zip-file fileb://${CIRCLE_PROJECT_REPONAME}.zip
+          command: aws lambda update-function-code --function-name $FUNCTION_NAME --region eu-west-2 --zip-file fileb://archive.zip
 
 workflows:
   build_deploy:
