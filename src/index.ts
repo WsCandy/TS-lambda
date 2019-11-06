@@ -1,9 +1,8 @@
-import { AWSLambdaHandler } from "./@types/AWSLambda";
+import { AWSLambdaHandler, Status } from "./@types/AWSLambda";
+import createResponse from "./util/createResponse";
 
 const handler: AWSLambdaHandler = async () => {
-    return {
-        statusCode: 200
-    };
+    return createResponse(Status.OK);
 };
 
 export { handler };

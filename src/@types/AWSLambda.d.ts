@@ -5,13 +5,17 @@ type SQSAttributes = {
     readonly ApproximateFirstReceiveTimestamp: string;
 };
 
+type Attribute = {
+    readonly stringValue: string;
+};
+
 type SQSItem = {
     readonly messageId: string;
     readonly receiptHandle: string;
     readonly body: string;
     readonly attributes: SQSAttributes;
     readonly messageAttributes: {
-        [key: string]: any;
+        [key: string]: Attribute;
     };
     readonly md5OfBody: string;
     readonly eventSource: string;
@@ -20,13 +24,18 @@ type SQSItem = {
 };
 
 type AWSLambdaResponse = {
-    readonly statusCode: number;
+    readonly statusCode: Status;
     readonly body?: string;
 };
 
 export type AWSLambdaEvent = {
     readonly Records?: SQSItem[];
 };
+
+export enum Status {
+    OK = 200,
+    ERR = 500
+}
 
 export type AWSLambdaHandler = (
     event: AWSLambdaEvent
