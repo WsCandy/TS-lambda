@@ -10,7 +10,7 @@ const handler: AWSLambdaHandler = async event => {
         return createResponse(Status.ERR);
     }
 
-    const status = await Promise.all([Records.map(v => processItem(v))])
+    const status = await Promise.all(Records.map(v => processItem(v)))
         .then(() => Status.OK)
         .catch(err => {
             console.log(err);
