@@ -1,3 +1,5 @@
+import { Status } from "../model/Status";
+
 type SQSAttributes = {
     readonly ApproximateReceiveCount: string;
     readonly SentTimestamp: string;
@@ -31,11 +33,6 @@ type AWSLambdaResponse = {
 export type AWSLambdaEvent = {
     readonly Records?: SQSItem[];
 };
-
-export enum Status {
-    OK = 200,
-    ERR = 500
-}
 
 export type AWSLambdaHandler = (
     event: AWSLambdaEvent

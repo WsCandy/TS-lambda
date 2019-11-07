@@ -1,4 +1,4 @@
-import { Status } from "../@types/AWSLambda";
+import { Status } from "../model/Status";
 
 interface Response {
     readonly statusCode: Status;
