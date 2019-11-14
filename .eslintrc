@@ -1,21 +1,21 @@
-module.exports = {
-    env: {
-        es6: true,
-        node: true
+{
+    "env": {
+        "es6": true,
+        "node": true
     },
-    overrides: [
+    "overrides": [
         {
-            files: ["src/**/*"]
+            "files": ["src/**/*"]
         }
     ],
-    extends: [
+    "extends": [
         "plugin:@typescript-eslint/recommended",
         "prettier",
         "prettier/@typescript-eslint"
     ],
-    parser: "@typescript-eslint/parser",
-    plugins: ["@typescript-eslint"],
-    rules: {
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "rules": {
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/prefer-interface": "off",
@@ -27,11 +27,11 @@ module.exports = {
         "comma-dangle": [
             "error",
             {
-                arrays: "never",
-                objects: "never",
-                imports: "never",
-                exports: "never",
-                functions: "never"
+                "arrays": "never",
+                "objects": "never",
+                "imports": "never",
+                "exports": "never",
+                "functions": "never"
             }
         ],
         "comma-style": ["error", "last"],
@@ -51,25 +51,25 @@ module.exports = {
         "no-new": "off",
         "wrap-iife": "off",
         "class-methods-use-this": "off",
-        quotes: ["error", "double"],
+        "quotes": ["error", "double"],
         "no-underscore-dangle": "off",
         "no-use-before-define": ["error", "nofunc"],
         "no-loop-func": "off",
         "no-multi-assign": "off",
-        strict: ["error", "never"],
+        "strict": ["error", "never"],
         "consistent-return": "off",
         "max-len": "off",
         "one-var": "off",
         "func-names": [1, "never"],
         "jsx-a11y/label-has-associated-control": "off",
-        indent: ["error", 4],
+        "indent": ["error", 4],
         "no-mixed-spaces-and-tabs": "error",
         "no-unused-expressions": [
             "error",
             {
-                allowTernary: true
+                "allowTernary": true
             }
         ],
-        camelcase: ["off"]
+        "camelcase": ["off"]
     }
-};
+}
