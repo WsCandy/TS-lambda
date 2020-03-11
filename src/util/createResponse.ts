@@ -1,11 +1,13 @@
 import { Status } from "../model/Status";
 
-interface Response {
+export interface Response {
     readonly statusCode: Status;
+    readonly body?: any;
 }
 
-const createResponse = (status: Status): Response => ({
-    statusCode: status
+const createResponse = (status: Status, body?: any): Response => ({
+    statusCode: status,
+    body
 });
 
 export default createResponse;
